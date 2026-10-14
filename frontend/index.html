@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Бронирование отелей</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; }
+        h1 { color: #333; }
+        button { padding: 12px 24px; margin: 5px; cursor: pointer; font-size: 16px; 
+                 background: #4CAF50; color: white; border: none; border-radius: 5px; }
+        button:hover { background: #45a049; }
+        pre { background: #fff; padding: 15px; border-radius: 5px; 
+              border: 1px solid #ddd; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Журнал бронирований отелей</h1>
+    <button onclick="loadReservations()">Показать все брони</button>
+    <button onclick="loadCalculation()">Рассчитать стоимость (бронь №1)</button>
+    <pre id="output">Нажмите на кнопку, чтобы загрузить данные...</pre>
+
+    <script>
+        async function loadReservations() {
+            try {
+                const response = await fetch('/api/reservations');
+                const data = await response.json();
+                document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('output').textContent = 'Ошибка: ' + error.message;
+            }
+        }
+
+        async function loadCalculation() {
+            try {
+                const response = await fetch('/api/calculate/1');
+                const data = await response.json();
+                document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('output').textContent = 'Ошибка: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
